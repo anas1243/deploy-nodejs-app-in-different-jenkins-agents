@@ -1,2 +1,14 @@
 ---
 # tasks file for roles/configure-jenkins-master-container
+
+- name: Run jenkins master container
+  community.docker.docker_container:
+    name: jenkins-master
+    image: anas1243/jenkins-with-docker
+    ports:
+      - 8080:8080
+      - 5000:5000
+    volumes:
+      - jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart_policy: always
