@@ -1,11 +1,11 @@
 ---
 - name: Configure Jenkins master and Jenkins slave on docker containers
-  hosts: jenkins-master
+  hosts: jenkins_master_slave_containers
   roles:
-    - configure-jenkins-master-container
-    - configure-jenkins-slave-container
-
-- name: Configure Jenkins slave on the EC2
-  hosts: jenkins-slave
-  roles:
-    - configure-jenkins-slave-on-ec2
+    - install-docker
+    # - configure-jenkins-master-container
+    # - configure-jenkins-slave-container
+# - name: Configure Jenkins slave on the EC2
+#   hosts: jenkins_slave
+#   roles:
+#     - configure-jenkins-slave-on-ec2
