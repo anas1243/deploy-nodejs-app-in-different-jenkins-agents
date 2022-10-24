@@ -1,0 +1,18 @@
+---
+# tasks file for roles/configure-jenkins-slave-container
+- name: Get the public key
+  ansible.builtin.command:
+    cmd: cat id_rsa.pub
+  register: public_key
+  changed_when: public_key.rc != 0
+
+- name: Run jenkins agent-01 container
+  community.docker.docker_container:
+    name: agent-01
+    image: anas1243/jenkins-ssh-agent-with-docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart_policy: always
+    user: root
+    env:
+      JENKINS_AGENT_SSH_PUBKEY: "{{ public_key.stdout }}"

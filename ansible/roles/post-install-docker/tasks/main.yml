@@ -1,0 +1,29 @@
+---
+# tasks file for roles/post-install-docker
+- name: Change docker group id to 1010
+  ansible.builtin.group:
+    name: docker
+    gid: 1010
+
+- name: Change the group owner of /var/run/docker.sock
+  ansible.builtin.file:
+    name: /var/run/docker.sock
+    group: 1010
+
+- name: Add ec2-user to the docker group
+  ansible.builtin.user:
+    name: ec2-user
+    append: true
+    groups: docker
+
+- name: Install pip
+  ansible.builtin.yum:
+    name:
+      - python3-pip
+    state: present
+    update_cache: true
+
+- name: Install docker-py to run docker_container module
+  ansible.builtin.pip:
+    name: docker-py
+    state: present

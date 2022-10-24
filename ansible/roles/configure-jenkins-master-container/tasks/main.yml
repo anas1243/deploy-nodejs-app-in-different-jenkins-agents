@@ -12,3 +12,13 @@
       - jenkins:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
     restart_policy: always
+  notify: Generate ssh key-pairs inside jenkins-master
+
+# Force run handlers to Generate ssh key-pairs inside the jenkins-master
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Copy public key into the host
+  ansible.builtin.command:
+    cmd: docker cp jenkins-master:/var/jenkins_home/.ssh/id_rsa.pub .
+  changed_when: false

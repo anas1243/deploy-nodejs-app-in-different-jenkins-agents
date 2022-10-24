@@ -1,2 +1,6 @@
 ---
 # handlers file for roles/configure-jenkins-master-container
+- name: Generate ssh key-pairs inside jenkins-master
+  ansible.builtin.command:
+    cmd: docker exec -it jenkins-master ssh-keygen -t rsa -N '' -f /var/jenkins_home/.ssh/id_rsa
+  changed_when: false
