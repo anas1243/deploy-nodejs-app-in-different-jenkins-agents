@@ -5,7 +5,7 @@ resource "aws_instance" "jenkins_master_and_slave" {
   key_name               = "gp_aws_key"
   vpc_security_group_ids = [aws_security_group.jenkins_master_and_slave_SG.id]
   provisioner "local-exec" {
-  command = "echo '[jenkins-master-slave-containers]\n${self.public_ip}' > ../ansible/inventory"
+    command = "echo '[jenkins_master_slave_containers]\n${self.public_ip}' > ../ansible/inventory"
   }
 
   tags = {
@@ -19,8 +19,9 @@ resource "aws_instance" "jenkins_slave" {
   subnet_id              = aws_subnet.public_subnet2.id
   key_name               = "gp_aws_key"
   vpc_security_group_ids = [aws_security_group.jenkins_master_and_slave_SG.id]
-    provisioner "local-exec" {
-  command = "echo '\n[jenkins-slave]\n${self.public_ip}' >> ../ansible/inventory"
+  depends_on             = [aws_instance.jenkins_master_and_slave]
+  provisioner "local-exec" {
+    command = "echo '\n[jenkins_slave]\n${self.public_ip}' >> ../ansible/inventory"
   }
   tags = {
     Name = "${var.env}_jenkins_slave"

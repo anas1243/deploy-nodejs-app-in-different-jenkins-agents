@@ -9,7 +9,7 @@ pipeline {
             steps {
                 checkout([$class: 'GitSCM',
                     branches: [[name: '*/main']],
-                    userRemoteConfigs: [[url: 'https://github.com/anas1243/jenkins_nodejs_example']]])
+                    userRemoteConfigs: [[url: 'https://github.com/anas1243/deploy-nodejs-app-in-different-jenkins-agents']]])
                     
                 sh "docker stop node-app || true && docker rm node-app || true"
                 sh "docker build . -t anas1243/sample-node-app:$BUILD_NUMBER"

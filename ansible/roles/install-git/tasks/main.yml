@@ -1,0 +1,7 @@
+---
+# tasks file for roles/install-git
+- name: Install git
+  ansible.builtin.yum:
+    name: git
+    state: present
+    update_cache: true
